@@ -15,7 +15,7 @@ git clone https://github.com/xmuzr/uav-visual-3d-localization.git
 cd uav-visual-3d-localization
 python -m venv .venv
 .venv\Scripts\Activate.ps1
-python -m pip install -r requirements.txt
+python -X utf8 -m pip install -r requirements.txt
 python -B 完整代码/run.py
 ```
 

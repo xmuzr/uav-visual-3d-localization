@@ -11,7 +11,7 @@ python -B examples/synthetic_demo.py
 python -B scripts/check_repository.py
 ```
 
-发布前还从 Git 暂存内容导出不含现场数据的干净副本，在副本内执行上述检查，验证公开文件可以独立使用。GitHub Actions 对 Windows / Ubuntu、Python 3.13 执行同一检查；远程运行状态以 Actions 页面为准。
+发布前还从 Git 暂存内容导出不含现场数据的干净副本，在副本内执行上述检查，验证公开文件可以独立使用。GitHub Actions 对 Windows / Ubuntu、Python 3.13 执行同一检查；远程运行状态以 Actions 页面为准。流水线显式启用 Python UTF-8 模式，兼容英文 Windows 环境中的中文目录名；安装命令也使用 `-X utf8`。
 
 ## 已知真值的合成几何
 

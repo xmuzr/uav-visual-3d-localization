@@ -14,7 +14,7 @@
 在“完整代码”中打开终端：
 
 ```powershell
-python -m pip install --no-index --find-links dependency_wheels -r requirements.txt
+python -X utf8 -m pip install --no-index --find-links dependency_wheels -r requirements.txt
 python -B run.py
 python -B run.py --multi
 python -B locate_cli.py --config input_plane_pose_example.json --output result.json
@@ -23,8 +23,8 @@ python -B multi_view_cli.py --config input_multi_view_intersection_example.json 
 python -B multi_view_cli.py --config input_lrf_height_plane_example.json --output plane.json
 ```
 
-Python 3.10—3.12需联网安装对应版本依赖：`python -m pip install -r requirements.txt`。
-没有dependency_wheels目录时执行 `python -m pip install -r requirements.txt`。安装依赖.cmd会按离线包是否存在自动选择安装方式。
+Python 3.10—3.12需联网安装对应版本依赖：`python -X utf8 -m pip install -r requirements.txt`。
+没有dependency_wheels目录时执行 `python -X utf8 -m pip install -r requirements.txt`。安装依赖.cmd会按离线包是否存在自动选择安装方式。
 本地附带离线wheel仅供Windows x64 / CPython 3.13使用。Python 3.14及以上不在本包支持范围。
 服务端口占用时执行 `python -B run.py --port 5060`；指定 `--no-browser` 可关闭自动打开网页。
 两份真实照片配置的相对图像路径以配置文件目录为基准，支持从其他工作目录使用绝对配置路径启动。
