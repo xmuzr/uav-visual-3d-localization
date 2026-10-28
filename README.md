@@ -115,8 +115,6 @@ uav-visual-3d-localization/
 - 射线残差、平面拟合误差与点间距离反映内部一致性。实测定位精度应另用未参与标定的独立检查点评价。
 - 网页服务默认仅监听本机，按本地工具使用。
 
-## 参考项目
-
-项目展示与文档组织参考 [AeroMind](https://github.com/Gypsophilazd/AeroMind) 和 [m400-spatial-perception](https://github.com/AcrazyQ/m400-spatial-perception)（访问权限由仓库所有者控制）。本次整理未引入参考项目源码、SDK 或私有资产。
+## 许可证
 
 当前仓库未指定开源许可证；公开可见不等于已授予再分发授权。第三方依赖遵循各自许可证。

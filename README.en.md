@@ -55,6 +55,4 @@ Additional documentation: [architecture](docs/ARCHITECTURE.md), [data preparatio
 
 ENU uses east, north and up in metres. Camera axes are right, down and forward; `camera_to_enu` maps camera-frame vectors to ENU. Multi-view observations must refer to the same stationary point. Ground-plane assumptions, altitude references, camera calibration, pose errors and weak baselines all affect field accuracy. Ray residuals and plane-fit errors measure internal agreement and must not be substituted for independent positioning errors.
 
-Documentation organization was informed by [AeroMind](https://github.com/Gypsophilazd/AeroMind) and [m400-spatial-perception](https://github.com/AcrazyQ/m400-spatial-perception), whose access is controlled by its owner. No reference-project source, SDK or private assets were added during this preparation.
-
 No open-source license is currently specified. Dependencies retain their respective licenses.
