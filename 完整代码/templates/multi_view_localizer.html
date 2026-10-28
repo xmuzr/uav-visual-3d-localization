@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>多照片交会定位</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='multi_view_localizer.css') }}" />
+  </head>
+  <body data-default-directory="{{ default_directory }}">
+    <main class="app-shell">
+      <aside class="photo-rail" aria-label="照片目录">
+        <header class="rail-header">
+          <h1>多照片交会定位</h1>
+          <button id="load-directory" type="button">加载</button>
+        </header>
+        <label class="field directory-field">
+          <span>照片路径</span>
+          <input id="directory-input" type="text" autocomplete="off" />
+        </label>
+        <div class="rail-meta">
+          <span id="directory-status">等待加载</span>
+          <span id="photo-count">0</span>
+        </div>
+        <nav id="photo-list" class="photo-list" aria-label="照片列表"></nav>
+      </aside>
+
+      <section class="workspace" aria-label="多照片点选">
+        <header class="workspace-toolbar">
+          <div class="photo-title">
+            <strong id="selected-name">未选择照片</strong>
+            <span id="image-size">0 x 0</span>
+          </div>
+          <label class="zoom-control">
+            <span>缩放</span>
+            <input id="zoom-range" type="range" min="25" max="500" value="100" step="5" />
+            <output id="zoom-output">100%</output>
+          </label>
+          <button id="fit-image" type="button">适配</button>
+        </header>
+        <div id="viewer-scroll" class="viewer-scroll">
+          <div class="viewer-stage">
+            <canvas id="photo-canvas" width="1" height="1" aria-label="多照片点选画布"></canvas>
+            <div id="empty-state" class="empty-state">选择照片</div>
+          </div>
+        </div>
+        <footer class="pixel-bar">
+          <label class="pixel-input">
+            <span>U</span>
+            <input id="pixel-u" type="number" step="0.01" />
+          </label>
+          <label class="pixel-input">
+            <span>V</span>
+            <input id="pixel-v" type="number" step="0.01" />
+          </label>
+          <span id="hover-pixel">悬停像素</span>
+          <button id="record-point" type="button">记录此图</button>
+        </footer>
+      </section>
+
+      <aside class="result-panel" aria-label="多照片交会结果">
+        <section class="panel-section">
+          <div class="section-heading">
+            <h2>交会设置</h2>
+            <span id="ready-status" class="pill muted">未就绪</span>
+          </div>
+          <label class="toggle-row">
+            <input id="pose-correction" type="checkbox" />
+            <span>LRF 通过门控时修正光轴</span>
+          </label>
+          <div class="action-row">
+            <button id="clear-observations" type="button">清空点</button>
+            <button id="run-intersection" type="button">计算交会</button>
+          </div>
+        </section>
+
+        <section class="panel-section">
+          <h2>同名点观测</h2>
+          <div id="observation-list" class="observation-list"></div>
+        </section>
+
+        <section class="panel-section result-section">
+          <div class="section-heading">
+            <h2>交会结果</h2>
+            <span id="result-status" class="pill muted">待计算</span>
+          </div>
+          <dl class="result-grid">
+            <div><dt>质量</dt><dd id="result-quality">-</dd></div>
+            <div><dt>照片数</dt><dd id="result-count">-</dd></div>
+            <div><dt>经度</dt><dd id="result-lon">-</dd></div>
+            <div><dt>纬度</dt><dd id="result-lat">-</dd></div>
+            <div><dt>高程</dt><dd id="result-h">-</dd></div>
+            <div><dt>最小交会角</dt><dd id="result-angle">-</dd></div>
+            <div><dt>RMSE</dt><dd id="result-rmse">-</dd></div>
+            <div><dt>最大残差</dt><dd id="result-max-residual">-</dd></div>
+            <div class="span-two"><dt>ENU</dt><dd id="result-enu">-</dd></div>
+            <div class="span-two"><dt>警告</dt><dd id="result-warnings">-</dd></div>
+          </dl>
+        </section>
+      </aside>
+    </main>
+    <script src="{{ url_for('static', filename='multi_view_localizer.js') }}"></script>
+  </body>
+</html>

@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>照片点定位</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='photo_localizer.css') }}" />
+  </head>
+  <body data-default-directory="{{ default_directory }}">
+    <main class="app-shell">
+      <aside class="photo-rail" aria-label="照片目录">
+        <header class="rail-header">
+          <h1>照片点定位</h1>
+          <button id="load-directory" type="button" data-testid="load-directory">加载</button>
+        </header>
+        <div class="mode-tabs" aria-label="定位模式">
+          <button id="mode-single" class="active" type="button">单照片</button>
+          <button id="mode-multi" type="button">多照片</button>
+        </div>
+        <label class="field directory-field">
+          <span>照片路径</span>
+          <input id="directory-input" type="text" autocomplete="off" />
+        </label>
+        <div class="rail-meta">
+          <span id="directory-status">等待加载</span>
+          <span id="photo-count">0</span>
+        </div>
+        <nav id="photo-list" class="photo-list" aria-label="照片列表"></nav>
+      </aside>
+
+      <section class="workspace" aria-label="照片点选">
+        <header class="workspace-toolbar">
+          <div class="photo-title">
+            <strong id="selected-name">未选择照片</strong>
+            <span id="image-size">0 x 0</span>
+          </div>
+          <label class="zoom-control">
+            <span>缩放</span>
+            <input id="zoom-range" type="range" min="25" max="500" value="100" step="5" />
+            <output id="zoom-output">100%</output>
+          </label>
+          <button id="fit-image" type="button">适配</button>
+        </header>
+        <div id="viewer-scroll" class="viewer-scroll">
+          <div class="viewer-stage">
+            <canvas id="photo-canvas" width="1" height="1" aria-label="照片点选画布"></canvas>
+            <div id="empty-state" class="empty-state">选择照片</div>
+          </div>
+        </div>
+        <footer class="pixel-bar">
+          <label class="pixel-input">
+            <span>U</span>
+            <input id="pixel-u" type="number" step="0.01" />
+          </label>
+          <label class="pixel-input">
+            <span>V</span>
+            <input id="pixel-v" type="number" step="0.01" />
+          </label>
+          <span id="hover-pixel">悬停像素</span>
+          <button id="localize-point" type="button" data-testid="localize-point">定位</button>
+          <button id="record-multi-point" class="hidden" type="button">记录此图</button>
+        </footer>
+      </section>
+
+      <aside class="parameter-panel" aria-label="定位参数">
+        <section class="panel-section">
+          <div class="section-heading">
+            <h2>照片元数据</h2>
+            <span id="gps-status" class="pill muted">GPS</span>
+          </div>
+          <dl class="metadata-grid">
+            <div><dt>相机</dt><dd id="camera-name">-</dd></div>
+            <div><dt>焦距</dt><dd id="focal-meta">-</dd></div>
+            <div><dt>时间</dt><dd id="capture-time">-</dd></div>
+            <div><dt>XMP</dt><dd id="xmp-meta">-</dd></div>
+          </dl>
+        </section>
+
+        <section class="panel-section form-grid single-mode-panel">
+          <h2>相机位置</h2>
+          <label class="field">
+            <span>纬度</span>
+            <input id="camera-lat" type="number" step="0.000000001" />
+          </label>
+          <label class="field">
+            <span>经度</span>
+            <input id="camera-lon" type="number" step="0.000000001" />
+          </label>
+          <label class="field">
+            <span>GPS 高程</span>
+            <input id="camera-h" type="number" step="0.01" value="0" />
+          </label>
+          <label class="field">
+            <span>离地高度 AGL</span>
+            <input id="height-agl" type="number" step="0.01" value="120" />
+          </label>
+        </section>
+
+        <section class="panel-section form-grid single-mode-panel">
+          <h2>相机内参</h2>
+          <label class="field">
+            <span>fx</span>
+            <input id="fx" type="number" step="0.01" />
+          </label>
+          <label class="field">
+            <span>fy</span>
+            <input id="fy" type="number" step="0.01" />
+          </label>
+          <label class="field">
+            <span>cx</span>
+            <input id="cx" type="number" step="0.01" />
+          </label>
+          <label class="field">
+            <span>cy</span>
+            <input id="cy" type="number" step="0.01" />
+          </label>
+          <label class="field span-two">
+            <span>畸变 k1,k2,p1,p2,k3</span>
+            <input id="distortion" type="text" value="0,0,0,0,0" autocomplete="off" />
+          </label>
+        </section>
+
+        <section class="panel-section form-grid single-mode-panel">
+          <div class="section-heading span-two">
+            <h2>姿态</h2>
+            <select id="pose-mode" aria-label="姿态模式">
+              <option value="nadir">天底</option>
+              <option value="heading_tilt">航向倾角</option>
+            </select>
+          </div>
+          <label id="image-up-row" class="field span-two">
+            <span>图像顶端方位</span>
+            <input id="image-up-azimuth" type="number" step="0.01" value="0" />
+          </label>
+          <label class="field heading-row hidden">
+            <span>光轴航向</span>
+            <input id="heading" type="number" step="0.01" value="0" />
+          </label>
+          <label class="field heading-row hidden">
+            <span>离天底倾角</span>
+            <input id="tilt" type="number" step="0.01" min="0" max="89.9" value="0" />
+          </label>
+          <label class="field heading-row hidden">
+            <span>滚转</span>
+            <input id="roll" type="number" step="0.01" value="0" />
+          </label>
+          <label class="toggle-row span-two">
+            <input id="single-lrf-correction" type="checkbox" />
+            <span>LRF 通过门控时修正光轴</span>
+          </label>
+        </section>
+
+        <section class="panel-section result-section single-mode-panel">
+          <div class="section-heading">
+            <h2>定位结果</h2>
+            <span id="localize-status" class="pill muted">待定位</span>
+          </div>
+          <dl class="result-grid">
+            <div class="span-two"><dt>像素</dt><dd id="result-pixel">-</dd></div>
+            <div class="geo-pair span-two">
+              <div><dt>经度</dt><dd id="result-lon">-</dd></div>
+              <div><dt>纬度</dt><dd id="result-lat">-</dd></div>
+            </div>
+            <div class="span-two"><dt>高程</dt><dd id="result-h">-</dd></div>
+            <div class="span-two"><dt>ENU</dt><dd id="result-enu">-</dd></div>
+            <div class="span-two result-subheading">AGL 地面高度</div>
+            <div class="geo-pair span-two">
+              <div><dt>经度</dt><dd id="result-agl-lon">-</dd></div>
+              <div><dt>纬度</dt><dd id="result-agl-lat">-</dd></div>
+            </div>
+            <div class="span-two"><dt>高程</dt><dd id="result-agl-h">-</dd></div>
+            <div class="span-two"><dt>ENU</dt><dd id="result-agl-enu">-</dd></div>
+            <div class="span-two result-subheading">LRF 目标高程</div>
+            <div class="geo-pair span-two">
+              <div><dt>经度</dt><dd id="result-lrf-lon">-</dd></div>
+              <div><dt>纬度</dt><dd id="result-lrf-lat">-</dd></div>
+            </div>
+            <div class="span-two"><dt>高程</dt><dd id="result-lrf-h">-</dd></div>
+            <div class="span-two"><dt>ENU</dt><dd id="result-lrf-enu">-</dd></div>
+            <div class="span-two"><dt>AGL/LRF 误差</dt><dd id="result-height-error">-</dd></div>
+            <div class="span-two"><dt>诊断</dt><dd id="result-diagnostics">-</dd></div>
+          </dl>
+        </section>
+
+        <section class="panel-section multi-mode-panel hidden">
+          <div class="section-heading">
+            <h2>多照片交会</h2>
+            <span id="multi-ready-status" class="pill muted">未就绪</span>
+          </div>
+          <label class="toggle-row">
+            <input id="multi-lrf-correction" type="checkbox" />
+            <span>LRF 通过门控时修正光轴</span>
+          </label>
+          <div class="multi-actions">
+            <button id="clear-multi-points" type="button">清空点</button>
+            <button id="run-multi-view" type="button">计算交会</button>
+          </div>
+        </section>
+
+        <section class="panel-section multi-mode-panel hidden">
+          <h2>同名点观测</h2>
+          <div id="multi-observation-list" class="multi-observation-list"></div>
+        </section>
+
+        <section class="panel-section result-section multi-mode-panel hidden">
+          <div class="section-heading">
+            <h2>交会结果</h2>
+            <span id="multi-result-status" class="pill muted">待计算</span>
+          </div>
+          <dl class="result-grid">
+            <div><dt>质量</dt><dd id="multi-result-quality">-</dd></div>
+            <div><dt>照片数</dt><dd id="multi-result-count">-</dd></div>
+            <div><dt>经度</dt><dd id="multi-result-lon">-</dd></div>
+            <div><dt>纬度</dt><dd id="multi-result-lat">-</dd></div>
+            <div><dt>高程</dt><dd id="multi-result-h">-</dd></div>
+            <div><dt>最小交会角</dt><dd id="multi-result-angle">-</dd></div>
+            <div><dt>RMSE</dt><dd id="multi-result-rmse">-</dd></div>
+            <div><dt>最大残差</dt><dd id="multi-result-max-residual">-</dd></div>
+            <div class="span-two"><dt>ENU</dt><dd id="multi-result-enu">-</dd></div>
+            <div class="span-two"><dt>警告</dt><dd id="multi-result-warnings">-</dd></div>
+          </dl>
+          <div class="multi-photo-results">
+            <h3>所选照片单张结果</h3>
+            <div id="multi-photo-result-list" class="multi-photo-result-list"></div>
+          </div>
+        </section>
+      </aside>
+    </main>
+    <script src="{{ url_for('static', filename='photo_localizer.js') }}"></script>
+  </body>
+</html>

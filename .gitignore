@@ -1,0 +1,43 @@
+# Local evidence, acceptance reports and office documents
+/.evidence_work/
+/outputs/
+/实验结果图/
+*.docx
+*.pptx
+*.xlsx
+*.inspect.ndjson
+
+# Original survey data and metadata remain local
+/数据集/*
+!/数据集/README.md
+!/数据集/原始照片/
+/数据集/原始照片/*
+!/数据集/原始照片/.gitkeep
+
+# Offline dependencies, environments and generated files
+完整代码/dependency_wheels/
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+build/
+dist/
+*.egg-info/
+*.log
+/results/
+/result.json
+/result.csv
+
+# Credentials and local editor settings
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

@@ -1,0 +1,30 @@
+{
+  "method": "multi_view_intersection",
+  "pose_correction": "none",
+  "observations": [
+    {
+      "id": "obs_0005",
+      "image_path": "../数据集/原始照片/-70_DJI_20260522155516_0005_V.jpeg",
+      "pixel": [
+        2640.0,
+        1978.0
+      ]
+    },
+    {
+      "id": "obs_0006",
+      "image_path": "../数据集/原始照片/-70_DJI_20260522155525_0006_V.jpeg",
+      "pixel": [
+        2640.0,
+        1978.0
+      ]
+    },
+    {
+      "id": "obs_0007",
+      "image_path": "../数据集/原始照片/-70_DJI_20260522155535_0007_V.jpeg",
+      "pixel": [
+        2640.0,
+        1978.0
+      ]
+    }
+  ]
+}

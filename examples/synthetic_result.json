@@ -1,0 +1,98 @@
+{
+  "data_type": "synthetic_only",
+  "seed": 20261028,
+  "units": "ENU metres; image pixels",
+  "ground_truth_enu": [
+    6.0,
+    4.0,
+    0.0
+  ],
+  "single_plane": {
+    "point_enu": [
+      6.000000000000007,
+      4.0,
+      0.0
+    ],
+    "error_3d_m": 7.105427357601002e-15
+  },
+  "multi_view_exact": {
+    "point_enu": [
+      6.000000000000016,
+      3.999999999999985,
+      -3.1719669131838966e-13
+    ],
+    "ray_count": 3,
+    "residuals_m": [
+      7.468801387444918e-14,
+      6.977338032380976e-14,
+      5.625286700723455e-14
+    ],
+    "along_ray_m": [
+      103.40212763768483,
+      101.05444077327856,
+      112.14722466472396
+    ],
+    "residual_rmse_m": 6.735727890598148e-14,
+    "residual_mean_m": 6.69047537351645e-14,
+    "residual_max_m": 7.468801387444918e-14,
+    "min_ray_angle_deg": 17.09962880669743,
+    "normal_matrix_condition": 26.86594279600838,
+    "behind_observation_count": 0,
+    "quality_level": "high",
+    "warnings": [],
+    "error_3d_m": 3.179580360963287e-13
+  },
+  "multi_view_pixel_noise": {
+    "pixel_noise_std": 0.5,
+    "point_enu": [
+      5.989193947429646,
+      3.9969712187902773,
+      0.033674637260369955
+    ],
+    "ray_count": 3,
+    "residuals_m": [
+      0.012201844420543874,
+      0.011405713955745127,
+      0.014545167139455584
+    ],
+    "along_ray_m": [
+      103.36672597410188,
+      101.02249522559512,
+      112.11418360023087
+    ],
+    "residual_rmse_m": 0.012787196789733802,
+    "residual_mean_m": 0.012717575171914861,
+    "residual_max_m": 0.014545167139455584,
+    "min_ray_angle_deg": 17.101261727200274,
+    "normal_matrix_condition": 26.84896116468799,
+    "behind_observation_count": 0,
+    "quality_level": "high",
+    "warnings": [],
+    "error_3d_m": 0.03549542903511829
+  },
+  "lrf_plane": {
+    "expected_coefficients": [
+      0.02,
+      -0.01,
+      2.0
+    ],
+    "fitted_coefficients": [
+      0.02,
+      -0.009999999999999985,
+      2.0000000000000004
+    ],
+    "fit_rmse_m": 5.438959822042073e-16,
+    "ground_truth_enu": [
+      6.0,
+      4.0,
+      2.08
+    ],
+    "point_enu": [
+      6.0000000000000036,
+      3.9999999999999987,
+      2.079999999999984
+    ],
+    "error_3d_m": 1.6431300764452317e-14
+  },
+  "interpretation": "Numerical demonstration only; not field accuracy evidence."
+}

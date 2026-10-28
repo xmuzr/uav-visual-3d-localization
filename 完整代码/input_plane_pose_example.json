@@ -1,0 +1,39 @@
+{
+  "method": "plane_pose",
+  "intrinsics": {
+    "fx": 3000.0,
+    "fy": 3000.0,
+    "cx": 2000.0,
+    "cy": 1500.0,
+    "distortion": [0.0, 0.0, 0.0, 0.0, 0.0],
+    "width": 4000,
+    "height": 3000
+  },
+  "origin": {
+    "lat": 31.2304,
+    "lon": 121.4737,
+    "h": 0.0
+  },
+  "pose": {
+    "type": "heading_tilt",
+    "center_enu": [0.0, 0.0, 120.0],
+    "heading_deg": 0.0,
+    "tilt_from_nadir_deg": 0.0,
+    "roll_deg": 0.0
+  },
+  "plane_z": 0.0,
+  "targets": [
+    {
+      "id": "target_1",
+      "label": "flat_ground_object",
+      "bbox": [1920.0, 1480.0, 2040.0, 1560.0],
+      "anchor": "center"
+    },
+    {
+      "id": "target_2",
+      "label": "upright_object",
+      "bbox": [2200.0, 1300.0, 2300.0, 1700.0],
+      "anchor": "bottom_center"
+    }
+  ]
+}
